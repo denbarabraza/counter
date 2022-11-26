@@ -1,0 +1,130 @@
+.App {
+  padding: 30px;
+  background-color: #2d3b57;
+}
+
+.handler{
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin: 0 auto;
+}
+
+.content{
+  height: 250px;
+  width: 250px;
+  margin: 30px;
+  border: 3px solid #0feeee;
+  border-radius: 15px;
+}
+
+.wrapper{
+}
+
+.counter{
+  margin: 15px auto;
+  width: 200px;
+  height: 160px;
+  border: 3px solid #0feeee;
+  border-radius: 20px;
+  background-color: #0feeee;
+  display: flex;
+  justify-content: center;
+}
+
+.counterWithValue{
+  margin: 15px auto;
+  width: 200px;
+  height: 160px;
+  border: 3px solid #0feeee;
+  border-radius: 20px;
+  background-color: #0feeee;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+}
+
+.counterWithValue .item{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
+}
+.counterWithValue .item .text{
+  color: black;
+  align-self: center;
+  font-size: 16px;
+  font-weight: 600;
+}
+.counterWithValue input{
+  width: 70px;
+  height: 20px;
+  margin: 2px;
+}
+
+.counterValue{
+  margin: 15px auto;
+  width: 200px;
+  height: 160px;
+  border: 3px solid #0feeee;
+  border-radius: 20px;
+  background-color: #ffffff;
+  display: flex;
+  justify-content: center;
+}
+
+.counterItem{
+  align-self: center;
+  color: #030202;
+  font-size: 50px;
+}
+
+.counterItemValue{
+  align-self: center;
+  font-size: 75px;
+  font-weight: 600;
+  color: #0ee0e7;
+}
+
+.textError{
+  align-self: center;
+  background: white;
+  border-radius: 5px;
+  color: #d91111;
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.btn{
+  display: flex;
+  justify-content: space-around;
+}
+
+.btn button{
+  color:black;
+  font-size: 20px;
+  background-color: #0feeee;
+  width: 80px;
+  height: 40px;
+  border-radius: 20px;
+  border: 1px solid #0feeee;
+}
+
+button:active {
+  color: white;
+  border: 2px solid white;
+  font-size: 25px;
+}
+
+button.inactive {
+  pointer-events: none;
+  background-color: #ffffff;
+  border: 1px solid #7f8f8f;
+  color: #89b9b9;
+}
+
+.errorInput{
+  background: rgb(253, 4, 4, 0.6);
+  border: 4px solid darkred;
+}
