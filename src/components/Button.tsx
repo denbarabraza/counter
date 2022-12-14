@@ -1,4 +1,4 @@
-import React from "react";
+import { FC } from "react";
 
 type ButtonPropsType = {
     name?: string
@@ -6,7 +6,7 @@ type ButtonPropsType = {
     className?: string
 }
 
-export const Button: React.FC<ButtonPropsType> = (
+export const Button: FC<ButtonPropsType> = (
     {
         name,
         callback,

@@ -1,81 +1,77 @@
-import React, {ChangeEvent, useEffect, useState} from 'react';
+import {ChangeEvent} from 'react';
 import s from "./CounterTuesday.module.css";
 import {Button} from "./Button";
+import {useDispatch, useSelector} from "react-redux";
+import {RootAppStoreType} from "../state/store";
+import {changeStateAC} from "../state/stateReducer";
+import {setErrorAC} from "../state/errorReducer";
+import {setErrorInAC} from "../state/errorInReducer";
+import {onChangeMaxValueAC, onChangeStartValueAC, ValueType} from "../state/valueReducer";
+import {seToggleValueAC} from "../state/toggleReducer";
 
-type ValueType = {
-    start: number
-    max: number
-}
-type CounterValuePropsType = {
-    changeState: (start: number, max: number) => void
-    setError: (error: string) => void
-    setErrorIn: (errorIn: boolean) => void
-    errorIn: boolean
-    setToggle?: (toggle: boolean) => void
-    toggle?: boolean
-}
+export const CounterValue = () => {
+    //Redux
+    const dispatch = useDispatch();
+    const errorIn = useSelector<RootAppStoreType, boolean>(state => state.errorIn.isErrorIn)
+    const value = useSelector<RootAppStoreType, ValueType>(state => state.value)
+    const toggle = useSelector<RootAppStoreType, boolean>(state => state.toggle.isToggle)
 
-export const CounterValue: React.FC<CounterValuePropsType> = (
-    {
-        changeState,
-        setError,
-        setErrorIn,
-        errorIn,
-        setToggle,
-        toggle
-    }) => {
-
-    //State
-    const [value, setValue] = useState<ValueType>({start: 0, max: 5,})
     //useEffect
-    useEffect(() => {
-        let get = localStorage.getItem('values for the state')
-        if (get) {
-            setValue(JSON.parse(get))
-        }
-    }, [])
-    useEffect(() => {
-        localStorage.setItem('values for the state', JSON.stringify(value))
-    }, [value])
+    /* useEffect(() => {
+         let get = localStorage.getItem('values for the state')
+         if (get) {
+             setValue(JSON.parse(get))
+         }
+     }, [])
+     useEffect(() => {
+         localStorage.setItem('values for the state', JSON.stringify(value))
+     }, [value])*/
 
     //Function
     const onChangeMaxValue = (e: ChangeEvent<HTMLInputElement>) => {
-        if (+e.currentTarget.value >= 0
-            && +e.currentTarget.value !== value.start
-            && +e.currentTarget.value > value.start
+        let currentTarget=+e.currentTarget.value
+        if (currentTarget >= 0
+            && currentTarget !== value.start
+            && currentTarget > value.start
         ) {
-            setValue({...value, max: +e.currentTarget.value})
-            setError('Enter value and press \'Set\'')
-            setErrorIn(false)
+            dispatch(setErrorInAC(false))
+            dispatch(onChangeMaxValueAC(currentTarget))
+            dispatch(setErrorAC('Enter value and press \'Set\''))
         } else {
-            setValue({...value, max: +e.currentTarget.value})
-            setError('Incorrect value!')
-            setErrorIn(true)
+            dispatch(onChangeMaxValueAC(currentTarget))
+            dispatch(setErrorAC('Incorrect value!'))
+            dispatch(setErrorInAC(true))
         }
     }
     const onChangeStartValue = (e: ChangeEvent<HTMLInputElement>) => {
-        if (+e.currentTarget.value >= 0
-            && +e.currentTarget.value !== value.max
-            && +e.currentTarget.value < value.max) {
-            setValue({...value, start: +e.currentTarget.value})
-            setError('Enter value and press \'Set\'')
-            setErrorIn(false)
+        let currentTarget=+e.currentTarget.value
+        if (currentTarget >= 0
+            && currentTarget !== value.max
+            && currentTarget < value.max) {
+            dispatch(onChangeStartValueAC(currentTarget))
+            dispatch(setErrorAC('Enter value and press \'Set\''))
+            dispatch(setErrorInAC(false))
         } else {
-            setValue({...value, start: +e.currentTarget.value})
-            setError('Incorrect value!')
-            setErrorIn(true)
+            dispatch(onChangeStartValueAC(currentTarget))
+            dispatch(setErrorAC('Incorrect value!'))
+            dispatch(setErrorInAC(true))
         }
+    }
+    const onFocusHandler=() => {
+        dispatch(setErrorInAC(false))
     }
 
     //Callback
     const setValueHandler = () => {
-        setError('')
-        changeState(value.start, value.max)
-        if (setToggle) setToggle(!toggle)
+        dispatch(setErrorAC(''))
+        dispatch(changeStateAC(value.start, value.max))
+        //setToggle
+        if (toggle) dispatch(seToggleValueAC(!toggle))
     }
 
     //ClassName
     let errorButton = errorIn ? s.inactive : ''
+    let errorInput = errorIn ? s.errorInput : ''
 
     return (
         <div className={s.content}>
@@ -87,12 +83,10 @@ export const CounterValue: React.FC<CounterValuePropsType> = (
                             <div>
                                 <input
                                     value={value.max}
-                                    className={errorIn ? s.errorInput : ''}
+                                    className={errorInput}
                                     type={"number"}
                                     onChange={onChangeMaxValue}
-                                    onFocus={() => {
-                                        setErrorIn(false)
-                                    }}
+                                    onFocus={onFocusHandler}
                                 />
                             </div>
                         </div>
@@ -101,12 +95,10 @@ export const CounterValue: React.FC<CounterValuePropsType> = (
                             <div>
                                 <input
                                     value={value.start}
-                                    className={errorIn ? s.errorInput : ''}
+                                    className={errorInput}
                                     type={"number"}
                                     onChange={onChangeStartValue}
-                                    onFocus={() => {
-                                        setErrorIn(false)
-                                    }}
+                                    onFocus={onFocusHandler}
                                 />
                             </div>
                         </div>
